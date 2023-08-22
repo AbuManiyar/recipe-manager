@@ -1,7 +1,7 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
-uri = "mongodb+srv://abu:AbuAneeza@cluster0.avzoqux.mongodb.net/?retryWrites=true&w=majority"
+uri = "mongodb+srv://abu:Abu@cluster0.avzoqux.mongodb.net/?retryWrites=true&w=majority"
 
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
@@ -19,7 +19,7 @@ mongodb = client['recipe_manager']
 
 #Sql DB
 import mysql.connector as conn
-db = conn.connect(host = 'localhost', user= 'root', password = 'AbuAneeza@123')
+db = conn.connect(host = 'localhost', user= 'root', password = 'Abu@123')
 cursor = db.cursor()
 cursor.execute('use recipe_manager')
 
