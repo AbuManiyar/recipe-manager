@@ -1,6 +1,7 @@
 from flask import Flask,render_template, request
 from sqlconn import mongodb, cursor
-
+import logging
+logging.basicConfig(filename='recipe.log', level=logging.DEBUG)
    
    
 app = Flask(__name__)
