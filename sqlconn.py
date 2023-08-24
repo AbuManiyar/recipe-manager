@@ -16,11 +16,3 @@ except Exception as e:
 mongodb = client['recipe_manager']
 
  
-
-#Sql DB
-import mysql.connector as conn
-db = conn.connect(host = 'localhost', user= 'root', password = 'AbuAneeza@123')
-cursor = db.cursor()
-cursor.execute('use recipe_manager')
-
-sqldb= cursor

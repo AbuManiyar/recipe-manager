@@ -1,5 +1,5 @@
 from flask import Flask,render_template, request
-from sqlconn import mongodb, cursor
+from sqlconn import mongodb
 import logging
 logging.basicConfig(filename='recipe.log', level=logging.DEBUG)
    
@@ -12,8 +12,6 @@ def index():
 
 @app.route("/view", methods=['POST'])
 def view():
-    cursor.execute('create database if not exists recipe_manager')
-    cursor.execute('use recipe_manager')
 
     query = """create table if not exists users
             (username varchar(40),
@@ -23,15 +21,8 @@ def view():
             state varchar(25), 
             city varchar(30),      
             primary key (username), unique(email) );"""
-    cursor.execute (query)
     
-    name = request.form['username']
-    
-    cursor.execute(f'select * from users where username="{name}"')
-    det = cursor.fetchall()
-    if len(det) == 0:
-        return render_template('index.html', msg = f"{name} does not exist!" )
-    
+    name = request.form['username']    
     coll = mongodb[f'{name}']
     records = coll.find()
     return render_template('view.html', details = records, user= name )
@@ -45,8 +36,6 @@ def add():
     gender = request.form['gender']
     state = request.form['state']
     city = request.form['city']    
-    cursor.execute('create database if not exists recipe_manager')
-    cursor.execute('use recipe_manager')
     query = """create table if not exists users
             (username varchar(40),
             name varchar(40), 
@@ -55,13 +44,6 @@ def add():
             state varchar(25), 
             city varchar(30),      
             primary key (username), unique(email) );"""
-    cursor.execute (query)
-    details = f"insert into users value('{username}','{name}','{email}','{gender}','{state}','{city}')"
-    
-    try:
-        cursor.execute(details)
-    except: return render_template('newuser.html', msg = 'Email or Username already exist')
-    
     
     coll = mongodb[f'{username}']
     coll.insert_one({"name":name, "email": email, 'sex' : gender, 'city': city, 'state': state})
