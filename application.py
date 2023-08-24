@@ -4,7 +4,7 @@ from sqlconn import mongodb, cursor
    
    
 app = Flask(__name__)
-
+application = app
 @app.route("/")
 def index():
     return render_template('index.html')
