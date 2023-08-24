@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block head %}{% endblock head %}
+
+{% block body %}
+
+<form action='/addrecipe/{{username}}' method='post'><center>
+    <p></p>
+    </center><br>
+      <label for="exampleFormControlInput1">Recipe Name</label>
+     <br> <input type="text" class="form-control" name='title' id="exampleFormControlInput1" placeholder="ex: My Biryani" required/>
+      <br><br><label for="exampleFormControlTextarea1">How to make steps</label>
+    <br>  <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" name='description' required></textarea>
+    <br><button type="submit" class="btn btn-primary mb-4">Add</button>
+
+  </form>
+
+
+{% endblock body %}

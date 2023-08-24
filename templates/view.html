@@ -2,6 +2,20 @@
 
 {% block head %}
 
-{{obtained_name}}
-
 {% endblock head %}
+
+{% block body %}
+
+
+<h1>Your Recipes</h1>
+    <center>
+    <p></p>
+    </center> 
+    <a href='/newrecipe/{{user}}'>Add a new recipe</a>
+
+{% for i in details  %}
+<h3 class='title'>{{loop.index}}. {{i['rname']}}</h3>
+<p class='desc'>{{i['description']}}</p>
+{% endfor %}
+
+{% endblock body %}

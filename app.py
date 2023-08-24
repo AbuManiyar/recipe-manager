@@ -12,37 +12,81 @@ def index():
 @app.route("/view", methods=['POST'])
 def view():
     cursor.execute('create database if not exists recipe_manager')
-    name = request.form['Name']
     cursor.execute('use recipe_manager')
-    cursor.execute('show tables;')
-    users = cursor.fetchall()
-    list_user=[]
-    print(users)
-    for i in range(len(users[0])):
-        list_user.append(users[0][i])
-    if name in list_user: 
-        coll = mongodb[f'{name}']
-        print(coll.find())
-       # coll.insert_one({'name':name})
-        
-    else: return 'Not a valid user'
+
+    query = """create table if not exists users
+            (username varchar(40),
+            name varchar(40), 
+            email varchar(40), 
+            gender char, 
+            state varchar(25), 
+            city varchar(30),      
+            primary key (username), unique(email) );"""
+    cursor.execute (query)
     
-    recipes = coll.find()
-    for i in recipes :
-        print(i)
-    return render_template('view.html', obtained_name= name)
+    name = request.form['username']
+    
+    cursor.execute(f'select * from users where username="{name}"')
+    det = cursor.fetchall()
+    if len(det) == 0:
+        return render_template('index.html', msg = f"{name} does not exist!" )
+    
+    coll = mongodb[f'{name}']
+    records = coll.find()
+    return render_template('view.html', details = records, user= name )
 
 
 @app.route('/add', methods=['POST'])
 def add():
-    name = request.form['username']
+    username = request.form['username']
+    name = request.form['naam']
     email = request.form['useremail']
-    cursor.execute(f'create table if not exists {name}(email varchar(40), primary key (id));')
-    cursor.execute(f"insert into {name} value('{email}')")
-    return 'Successful'
+    gender = request.form['gender']
+    state = request.form['state']
+    city = request.form['city']    
+    cursor.execute('create database if not exists recipe_manager')
+    cursor.execute('use recipe_manager')
+    query = """create table if not exists users
+            (username varchar(40),
+            name varchar(40), 
+            email varchar(40), 
+            gender char, 
+            state varchar(25), 
+            city varchar(30),      
+            primary key (username), unique(email) );"""
+    cursor.execute (query)
+    details = f"insert into users value('{username}','{name}','{email}','{gender}','{state}','{city}')"
+    
+    try:
+        cursor.execute(details)
+    except: return render_template('newuser.html', msg = 'Email or Username already exist')
+    
+    
+    coll = mongodb[f'{username}']
+    coll.insert_one({"name":name, "email": email, 'sex' : gender, 'city': city, 'state': state})
+    for i in coll.find() :
+        print(i['name'])
+    
+    return render_template('index.html', msg = 'Your account created!')
 
 @app.route('/new')
 def new():
    return render_template('newuser.html') 
+
+
+@app.route('/newrecipe/<user>')
+def newrecipe(user):
+    return render_template('newrecipe.html', username = user)
+        
+@app.route('/addrecipe/<username>',methods=['POST'])
+def addrecipe(username):
+    coll = mongodb[f'{username}']
+    entries={}
+    entries['rname']= request.form["title"]
+    entries['description']= request.form["description"]
+    coll.insert_one(entries)
+    return 'Added Successfull, <a href="/">return</a>'
+        
+        
 if __name__ == '__main__':
     app.run(debug=True)

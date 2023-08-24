@@ -1,44 +1,54 @@
 
 body {
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-    height: 100vh;
-    background-color: #f1f1f1;
-  }
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  height: 100vh;
+  background-color: #f1f1f1;
+}
 .container{
-    text-align: center;
-    margin: 100 auto;
-   
+  text-align: center;
+  margin: 100 auto;
+ 
 }
 
 input.form-control{
-    width:50%;
-  }
+  width:50%;
+}
 
-  h1{
-    color: blueviolet;
-  }
+h1{
+  color: blueviolet;
+}
 
-  body .container{
-    background: lightgray;
-    margin: 30px;
+body .container{
+  background: lightgray;
+  margin: 30px;
+  height : 550px
+}
 
-  }
+label{
+  color: darkblue;
+  font-style: italic;
+}
 
-  label{
-    color: darkblue;
-    font-style: italic;
-  }
+button.btn{
+  background: blueviolet;
+}
+button.btn:hover{
+  background: palevioletred
+}
 
-  button.btn{
-    background: blueviolet;
-  }
-  button.btn:hover{
-    background: palevioletred
-  }
+.container a:hover {
+  color: white;
+  background: blueviolet;
+}
 
- .container a:hover {
-    color: white;
-    background: blueviolet;
-  }
+center p{
+  width: 600px;
+  background: yellow;
+
+}
+
+.container h3.title{
+color: violet;
+}
